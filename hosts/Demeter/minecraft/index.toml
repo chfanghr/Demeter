@@ -1,0 +1,16 @@
+hash-format = "sha256"
+
+[[files]]
+file = "mods/carpet.pw.toml"
+hash = "868db465e6635a883d1b692d56164c1c14d687d960a93e6f9d9fd74c1cd43f2e"
+metafile = true
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "fe7dbe82cf758cc6a73e96f57229e6be3696588388da757fbd936ac8c08c224f"
+metafile = true
+
+[[files]]
+file = "mods/lithium.pw.toml"
+hash = "3dedde5213176d72e1c353877fa44315945e8f3da2ba05f5679d81e9f558bb1d"
+metafile = true
