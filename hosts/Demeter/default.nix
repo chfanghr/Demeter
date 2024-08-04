@@ -94,12 +94,17 @@
 
   programs.mosh.enable = true;
 
-  specialisation.debug.configuration = {
-    boot = {
-      loader.systemd-boot.memtest86.enable = true;
-      plymouth.enable = false;
-    };
+  specialisation = {
+    debug.configuration = {
+      boot = {
+        loader.systemd-boot.memtest86.enable = true;
+        plymouth.enable = false;
+      };
 
-    dotfiles.shared.props.purposes.graphical.desktop = false;
+      dotfiles.shared.props.purposes.graphical.desktop = false;
+    };
+    noProxy.configuration = {
+      dotfiles.shared.props.networking.home.proxy.useRouter = lib.mkForce false;
+    };
   };
 }

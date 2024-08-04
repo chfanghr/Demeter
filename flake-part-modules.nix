@@ -17,6 +17,7 @@ in {
       Jupiter = mkX86_64Nixos "Jupiter";
       Artemis = mkX86_64Nixos "Artemis";
       Athena = mkX86_64Nixos "Athena";
+      Persephone = mkX86_64Nixos "Persephone";
     };
   };
 }

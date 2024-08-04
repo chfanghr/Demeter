@@ -1,11 +1,19 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}: let
+  bondName = "bond0";
+  inherit (lib) mkForce;
+in {
   imports = [
     ./disko.nix
+    ./sing-box.nix
     ../../modules/nixos/common
     inputs.disko.nixosModules.default
+    inputs.agenix.nixosModules.default
   ];
-
-  networking.hostName = "Athena";
 
   dotfiles.nixos.props = {
     nix.roles.consumer = true;
@@ -27,12 +35,59 @@
   };
 
   boot = {
-    initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "igc"];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "igc"
+    ];
+    kernelModules = ["tcp_bbr"];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    kernel.sysctl = {
+      "net.ipv4.tcp_congestion_control" = "bbr";
+    };
   };
 
   nix.gc.options = "--delete-older-than +8";
+
+  networking = {
+    hostName = "Athena";
+    nftables.enable = true;
+    bonds.${bondName} = {
+      interfaces = ["enp1s0" "enp2s0"];
+      driverOptions = {
+        mode = "802.3ad";
+      };
+    };
+    useNetworkd = true;
+    interfaces.${bondName}.useDHCP = true;
+    firewall.enable = true;
+  };
+
+  environment.defaultPackages = [
+    pkgs.zellij
+    pkgs.minicom
+  ];
+
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
+
+  age.identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+
+  powerManagement.cpuFreqGovernor = "ondemand";
+
+  services = {
+    tailscale.useRoutingFeatures = mkForce "both";
+    iperf3 = {
+      enable = true;
+      openFirewall = true;
+    };
+  };
 }

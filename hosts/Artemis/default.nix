@@ -51,4 +51,8 @@
   nix.gc.options = "--delete-older-than +8";
 
   system.stateVersion = lib.mkForce "22.11";
+
+  specialisation.noProxy.configuration = {
+    dotfiles.shared.props.networking.home.proxy.useRouter = lib.mkForce false;
+  };
 }

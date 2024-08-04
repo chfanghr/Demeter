@@ -18,7 +18,7 @@
       server role = standalone server
       server min protocol = SMB2_02
 
-      hosts allow = 10.42.0. 127.0.0.1 100.
+      hosts allow = 10.41.0. 127.0.0.1 100.
       hosts deny = 0.0.0.0/0
 
       hide unreadable = yes
